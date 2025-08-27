@@ -1,4 +1,0 @@
-[client]
-showErrorDetails = true
-[server]
-enableCORS = false
