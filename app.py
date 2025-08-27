@@ -4,15 +4,9 @@ from datetime import datetime, date
 from babel.dates import format_date
 import json
 import os
-import locale
 
-# Ustawienie języka dla formatowania dat
-# Komenda locale.setlocale w niektórych środowiskach (jak Streamlit Cloud) może nie działać
-# Sprawdzenie i próba ustawienia lokalizacji
-try:
-    locale.setlocale(locale.LC_ALL, 'pl_PL.UTF-8')
-except locale.Error:
-    pass # Pomijamy błąd i używamy domyślnych ustawień, które i tak działają dla większości formatowania
+# Komentarz: Usunięto import i konfigurację 'locale',
+# ponieważ babel.dates.format_date ma wbudowane wsparcie dla języków.
 
 # --- Konfiguracja strony i danych ---
 st.set_page_config(
@@ -71,7 +65,8 @@ st.title("Borrow And Check-in App")
 st.markdown("---")
 
 current_date = datetime.now()
-st.sidebar.markdown(f"**Dzisiaj jest:** {format_date(current_date, format='full')}")
+# Zmieniono formatowanie daty, aby jawnie używać polskiej lokalizacji
+st.sidebar.markdown(f"**Dzisiaj jest:** {format_date(current_date, format='full', locale='pl_PL')}")
 st.sidebar.markdown(f"**Aktualna godzina:** {current_date.strftime('%H:%M:%S')}")
 
 # Dodany stały tekst w menu bocznym, zgodnie z prośbą
