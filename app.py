@@ -7,10 +7,12 @@ import os
 import locale
 
 # Ustawienie języka dla formatowania dat
+# Komenda locale.setlocale w niektórych środowiskach (jak Streamlit Cloud) może nie działać
+# Sprawdzenie i próba ustawienia lokalizacji
 try:
     locale.setlocale(locale.LC_ALL, 'pl_PL.UTF-8')
 except locale.Error:
-    st.warning("Could not set locale 'pl_PL.UTF-8'. Defaulting to C.")
+    pass # Pomijamy błąd i używamy domyślnych ustawień, które i tak działają dla większości formatowania
 
 # --- Konfiguracja strony i danych ---
 st.set_page_config(
