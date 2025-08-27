@@ -4,6 +4,7 @@ from datetime import datetime, date
 from babel.dates import format_date
 import json
 import os
+import pytz
 
 # Komentarz: Usunięto import i konfigurację 'locale',
 # ponieważ babel.dates.format_date ma wbudowane wsparcie dla języków.
@@ -64,7 +65,10 @@ st.session_state.clients = pd.DataFrame(st.session_state.clients_data)
 st.title("Borrow And Check-in App")
 st.markdown("---")
 
-current_date = datetime.now()
+# Ustawienie strefy czasowej na Polskę (Warsaw)
+warsaw_timezone = pytz.timezone('Europe/Warsaw')
+current_date = datetime.now(warsaw_timezone)
+
 # Zmieniono formatowanie daty, aby jawnie używać polskiej lokalizacji
 st.sidebar.markdown(f"**Dzisiaj jest:** {format_date(current_date, format='full', locale='pl_PL')}")
 st.sidebar.markdown(f"**Aktualna godzina:** {current_date.strftime('%H:%M:%S')}")
@@ -159,7 +163,7 @@ if menu_selection == "Wypożyczenie gry":
                 
                 # Zapisanie do historii
                 new_history_entry = {
-                    'Data': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    'Data': datetime.now(warsaw_timezone).strftime("%Y-%m-%d %H:%M:%S"),
                     'Typ zdarzenia': 'Wypożyczenie',
                     'Tytuł Gry': selected_game,
                     'Klient': selected_client_full_name,
@@ -252,7 +256,7 @@ elif menu_selection == "Zwrot gry":
             
             # Zapisanie do historii
             new_history_entry = {
-                'Data': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                'Data': datetime.now(warsaw_timezone).strftime("%Y-%m-%d %H:%M:%S"),
                 'Typ zdarzenia': 'Zwrot',
                 'Tytuł Gry': game_title,
                 'Klient': client_name,
